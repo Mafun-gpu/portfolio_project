@@ -1,0 +1,15 @@
+{% extends 'portfolio/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+  <h1>{{ item.title }}</h1>
+  <p><strong>Описание:</strong> {{ item.description }}</p>
+  
+  {% if item.image %}
+    <img src="{{ item.image.url }}" alt="{{ item.title }}" style="max-width: 400px;">
+  {% endif %}
+  
+  <p><em>Дата создания: {{ item.created_at }}</em></p>
+  <a href="{% url 'portfolio:portfolio_list' %}" class="btn btn-secondary">Вернуться</a>
+</div>
+{% endblock %}
