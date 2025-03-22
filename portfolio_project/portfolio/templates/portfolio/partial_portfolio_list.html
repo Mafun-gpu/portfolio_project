@@ -1,3 +1,8 @@
+{% load portfolio_tags %}  {# Загружаем пользовательские теги из файла portfolio_tags.py #}
+<div class="portfolio-count">
+    Всего проектов: {% portfolio_count %}
+</div>
+
 <table class="table table-bordered">
     <thead>
         <tr>
@@ -15,7 +20,7 @@
                     {{ item.title }}
                 </a>
             </td>
-            <td>{{ item.description }}</td>
+            <td>{{ item.description|truncatewords:6 }}</td>
             <td>
                 {% if item.image %}
                   <img src="{{ item.image.url }}" alt="{{ item.title }}" width="100">
