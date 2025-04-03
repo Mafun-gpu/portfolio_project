@@ -10,5 +10,6 @@ urlpatterns = [
     path('update/<int:pk>/', views.portfolio_update, name='portfolio_update'),
     path('delete/<int:pk>/', views.portfolio_delete, name='portfolio_delete'),
     path('detail/<int:pk>/', views.portfolio_detail, name='portfolio_detail'),
+    path('detail/<slug:slug>/', views.portfolio_detail, name='portfolio_detail'),
     path('archive/<yyyy:year>/', views.archive_by_year, name='archive_by_year'),
 ]

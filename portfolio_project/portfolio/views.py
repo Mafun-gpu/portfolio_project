@@ -25,7 +25,7 @@ def bad_request(request, exception):
     return render(request, 'portfolio/400.html', status=400)
 
 def portfolio_list(request):
-    items = PortfolioItem.objects.all().order_by('-created_at')
+    items = PortfolioItem.published.all().order_by('-created_at')
     return render(request, 'portfolio/index.html', {'items': items})
 
 def save_portfolio_item_form(request, form, template_name):
@@ -70,8 +70,8 @@ def portfolio_delete(request, pk):
         data['html_form'] = render_to_string('portfolio/partial_portfolio_delete.html', context, request=request)
     return JsonResponse(data)
 
-def portfolio_detail(request, pk):
-    item = get_object_or_404(PortfolioItem, pk=pk)
+def portfolio_detail(request, slug):
+    item = get_object_or_404(PortfolioItem, slug=slug)
     return render(request, 'portfolio/portfolio_detail.html', {'item': item})
 
 def archive_by_year(request, year):
