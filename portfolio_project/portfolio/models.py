@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
-from enum import Enum
+from django.urls import reverse
 from .enums import CategoryType
 
 class PublishedManager(models.Manager):
@@ -12,24 +12,25 @@ class PortfolioItem(models.Model):
     description = models.TextField("Описание")
     image = models.ImageField("Изображение", upload_to='portfolio_images/', blank=True, null=True)
     created_at = models.DateTimeField("Дата создания", auto_now_add=True)
-    slug = models.SlugField(max_length=255,  blank=True, null=True)
+    slug = models.SlugField(max_length=255, unique=True, blank=True, null=True)
     is_published = models.BooleanField("Опубликовано", default=True)
-
-    # Поле для категории, используя Enum:
     category = models.CharField(
         "Категория",
         max_length=50,
-        choices=[(tag.name, tag.value) for tag in CategoryType],  # превращаем Enum в список кортежей
-        default=CategoryType.OTHER.name
+        choices=CategoryType.choices,
+        default=CategoryType.OTHER
     )
 
-    objects = models.Manager()  # стандартный менеджер unique=True,
-    published = PublishedManager()  # пользовательский менеджер
+    objects = models.Manager()
+    published = PublishedManager()
 
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('portfolio:portfolio_detail', kwargs={'slug': self.slug})
 
     def __str__(self):
         return self.title

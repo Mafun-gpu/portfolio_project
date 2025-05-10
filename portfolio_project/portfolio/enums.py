@@ -1,7 +1,7 @@
-from enum import Enum
+from django.db import models
 
-class CategoryType(Enum):
-    MUSIC = "Music"
-    SPORT = "Sport"
-    FILM = "Film"
-    OTHER = "Other"
+class CategoryType(models.TextChoices):
+    MUSIC = "Music", 'Музыка'
+    SPORT = "Sport", 'Спорт'
+    FILM = "Film", 'Фильм'
+    OTHER = "Other", 'Другое'
